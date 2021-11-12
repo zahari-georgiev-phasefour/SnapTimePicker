@@ -358,8 +358,13 @@ class SnapTimePickerDialog : BaseSnapTimePickerDialogFragment() {
         if (currentSelectedHour != -1 && currentSelectedMinute != -1) {
             if (currentSelectedHour == selectableTimeRange?.start?.hour) {
                 val startMinute = selectableTimeRange?.start?.minute ?: -1
-                val endMinute = MAX_MINUTE
-                updateMinuteListWithRange(startMinute, endMinute)
+                if (selectableTimeRange?.start?.hour == selectableTimeRange?.end?.hour) {
+                    val endMinute = selectableTimeRange?.end!!.minute
+                    updateMinuteListWithRange(startMinute, endMinute)
+                } else {
+                    updateMinuteListWithRange(startMinute, MAX_MINUTE)
+                }
+
                 val minutePosition = minuteAdapter.getPositionByValue(currentSelectedMinute)
                 if (currentSelectedMinute < startMinute) {
                     updateMinutePosition(minutePosition)
